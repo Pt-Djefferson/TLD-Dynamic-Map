@@ -256,6 +256,7 @@ namespace TLD_Dynamic_Map
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
+            /*
             var scope = FocusManager.GetFocusScope(tabPanel);
             FocusManager.SetFocusedElement(scope, null);
             Keyboard.ClearFocus();
@@ -264,10 +265,12 @@ namespace TLD_Dynamic_Map
                 CurrentSave.Save();
             if (CurrentProfile != null)
                 CurrentProfile.Save();
+                */
         }
 
         public void CurrentSaveSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            /*
             if (ccSaves == null && ccSaves.SelectedValue == null)
                 return;
 
@@ -287,6 +290,7 @@ namespace TLD_Dynamic_Map
                 }
                 tabPanel.IsEnabled = true;
             }
+            */
         }
 
         private void RefreshClicked(object sender, RoutedEventArgs e)

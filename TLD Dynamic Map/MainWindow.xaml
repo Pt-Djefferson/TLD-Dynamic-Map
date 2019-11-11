@@ -8,10 +8,9 @@
         xmlns:helpers="clr-namespace:TLD_Dynamic_Map.Helpers"
         xmlns:images="clr-namespace:TLD_Dynamic_Map.Images"
         xmlns:viewModels="clr-namespace:TLD_Dynamic_Map.ViewModels"
-        xmlns:tabs="clr-namespace:TLD_Dynamic_Map.Tabs"
+        xmlns:map="clr-namespace:TLD_Dynamic_Map"
         xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="{x:Static p:Resources.Title}" Height="600" Width="900" 
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -87,9 +86,9 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0">
-                         <TextBlock Grid.Row="0" Margin="0 0 0 10" FontWeight="Bold">Currently open save has been modified</TextBlock>
+                        <TextBlock Grid.Row="0" Margin="0 0 0 10" FontWeight="Bold">Currently open save has been modified</TextBlock>
                         <TextBlock Grid.Row="0" Margin="0 0 0 10">If you don't refresh, you potentially lose any chnges made in-game</TextBlock>
-                         <TextBlock Grid.Row="0" Margin="0 0 0 10">If you refresh, you'll lose any changes made in the editor without saving</TextBlock>
+                        <TextBlock Grid.Row="0" Margin="0 0 0 10">If you refresh, you'll lose any changes made in the editor without saving</TextBlock>
                     </StackPanel>
                     <StackPanel FlowDirection="RightToLeft" Orientation="Horizontal" Grid.Row="2">
                         <Button DockPanel.Dock="Right" Command="{Binding RefreshCommand}" Style="{StaticResource MaterialDesignFlatButtonNoRounding}" Content="{x:Static p:Resources.Refresh}" Width="150"/>
@@ -132,15 +131,11 @@
                 </StackPanel>
             </Grid>
             <Rectangle DockPanel.Dock="Top" Fill="#A6B8C3" Height="1" ></Rectangle>
-            <uc:userControl />
-            <dragablz:TabablzControl Name="tabPanel"  DockPanel.Dock="Bottom" FixedHeaderCount="7">
-                <TabItem Header="{x:Static p:Resources.Map}">
-                    <DockPanel>
-                        <Rectangle Fill="#A6B8C3" Height="1" DockPanel.Dock="Top"></Rectangle>
-                        <tabs:MapTab  DockPanel.Dock="Top"/>
-                    </DockPanel>
-                </TabItem>
-            </dragablz:TabablzControl>
+            <Frame Height="528" VerticalAlignment="Top" Width="100">
+                <Frame.Content>
+                    <map:Map/>
+                </Frame.Content>
+            </Frame>
         </DockPanel>
     </materialDesign:DialogHost>
 </Window>
