@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="TLD_Dynamic_Map.Tabs.ProfileTab"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:p="clr-namespace:TLD_Dynamic_Map.Properties"
+             xmlns:converters="clr-namespace:TLD_Dynamic_Map.Converters"
+             xmlns:gameData="clr-namespace:TLD_Dynamic_Map.Game_data"
+             xmlns:helpers="clr-namespace:TLD_Dynamic_Map.Helpers"
+             xmlns:images="clr-namespace:TLD_Dynamic_Map.Images"
+             xmlns:viewModels="clr-namespace:TLD_Dynamic_Map.ViewModels"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="500">
+
+    <UserControl.Resources>
+        <converters:PercentageConverter x:Key="PercentageConverter" />
+        <System:Double x:Key="bookSmartRequirement">250</System:Double>
+        <System:Double x:Key="coldFusionRequirement">100</System:Double>
+        <System:Double x:Key="efficientMachingeRequirement">12000</System:Double>
+        <System:Double x:Key="fireMasterRequirement">1000</System:Double>
+        <System:Double x:Key="freeRunnerRequirement">50</System:Double>
+        <System:Double x:Key="snowWalkerRequirement">1000</System:Double>
+        <converters:FourDoNBadgeCompletedConverter x:Key="FourDoNBadgeCompletedConverter" />
+    </UserControl.Resources>
+
+    <StackPanel Margin="10 10">
+        <Expander Header="{x:Static p:Resources.Traits}" IsExpanded="True">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                    <Label Width="160" Content="{x:Static p:Resources.BookSmartProgress}"/>
+                    <Slider Name="bookSmartSlider" Orientation="Horizontal" Minimum="0" TickFrequency="1"
+                            Maximum="{StaticResource bookSmartRequirement}" Width="200" Value="{Binding CurrentProfile.State.Feats.BookSmarts.m_HoursResearch}" Margin="5 5">
+                    </Slider>
+                    <Label Content="{Binding ElementName=bookSmartSlider, Path=Value, Converter={StaticResource PercentageConverter}, 
+                           ConverterParameter={StaticResource bookSmartRequirement}}">
+                    </Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                    <Label Width="160" Content="{x:Static p:Resources.ColdFusionProgress}"/>
+                    <Slider Name="coldFusionSlider" Orientation="Horizontal" Minimum="0" TickFrequency="1" Width="200" Margin="5 5"
+                                    Maximum="{StaticResource coldFusionRequirement}" Value="{Binding CurrentProfile.State.Feats.ColdFusion.m_ElapsedDays}" >
+                    </Slider>
+                    <Label Content="{Binding ElementName=coldFusionSlider, Path=Value, Converter={StaticResource PercentageConverter}, 
+                           ConverterParameter={StaticResource coldFusionRequirement}}">
+                    </Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                    <Label Width="160" Content="{x:Static p:Resources.EfficientMachineProgress}"/>
+                    <Slider Name="efficientMachineSlider" Orientation="Horizontal" Minimum="0" TickFrequency="1" Width="200" Margin="5 5"
+                                    Maximum="{StaticResource efficientMachingeRequirement}" Value="{Binding CurrentProfile.State.Feats.EfficientMachine.m_ElapsedHours}" >
+                    </Slider>
+                    <Label Content="{Binding ElementName=efficientMachineSlider, Path=Value, Converter={StaticResource PercentageConverter}, 
+                           ConverterParameter={StaticResource efficientMachingeRequirement}}">
+                    </Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                    <Label Width="160" Content="{x:Static p:Resources.FireMasterProgress}"/>
+                    <Slider Name="fireMasterSlider" Orientation="Horizontal" Minimum="0" TickFrequency="1" Width="200" Margin="5 5"
+                            Maximum="{StaticResource fireMasterRequirement}"  Value="{Binding CurrentProfile.State.Feats.FireMaster.m_NumFiresStarted}" >
+                    </Slider>
+                    <Label Content="{Binding ElementName=fireMasterSlider, Path=Value, Converter={StaticResource PercentageConverter}, 
+                           ConverterParameter={StaticResource fireMasterRequirement}}">
+                    </Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                    <Label Width="160" Content="{x:Static p:Resources.FreeRunnerProgress}"/>
+                    <Slider Name="freeRunnerSlider" Orientation="Horizontal" Minimum="0" TickFrequency="1" Width="200" Margin="5 5"
+                            Maximum="{StaticResource freeRunnerRequirement}" Value="{Binding CurrentProfile.State.Feats.FreeRunner.m_ElapsedKilometers}" >
+                    </Slider>
+                    <Label Content="{Binding ElementName=freeRunnerSlider, Path=Value, Converter={StaticResource PercentageConverter}, 
+                           ConverterParameter={StaticResource freeRunnerRequirement}}">
+                    </Label>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Width="160" Content="{x:Static p:Resources.SnowWalkerProgress}"/>
+                    <Slider Name="snowWalkerSlider" Orientation="Horizontal" Minimum="0" TickFrequency="1" Width="200" Margin="5 5"
+                            Maximum="{StaticResource snowWalkerRequirement}" Value="{Binding CurrentProfile.State.Feats.SnowWalker.m_ElapsedKilometers}" >
+                    </Slider>
+                    <Label Content="{Binding ElementName=snowWalkerSlider, Path=Value, Converter={StaticResource PercentageConverter}, 
+                           ConverterParameter={StaticResource snowWalkerRequirement}}">
+                    </Label>
+                </StackPanel>
+            </StackPanel>
+        </Expander>
+
+        <CheckBox IsChecked="{Binding CurrentProfile.State.m_DaysCompleted4DON, Converter={StaticResource FourDoNBadgeCompletedConverter}}" 
+                  Margin="0 5 0 5" Content="4 days of night badges unlocked"/>
+        <CheckBox IsChecked="{Binding CurrentProfile.State.m_DaysCompleted4DON2019, Converter={StaticResource FourDoNBadgeCompletedConverter}}" 
+                  Margin="0 5 0 5" Content="4 days of night 2019 badges unlocked"/>
+    </StackPanel>
+</UserControl>

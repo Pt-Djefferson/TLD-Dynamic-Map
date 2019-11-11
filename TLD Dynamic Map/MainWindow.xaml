@@ -1,0 +1,146 @@
+﻿<Window x:Class="TLD_Dynamic_Map.MainWindow"
+        Name="TheWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:p="clr-namespace:TLD_Dynamic_Map.Properties"
+        xmlns:converters="clr-namespace:TLD_Dynamic_Map.Converters"
+        xmlns:gameData="clr-namespace:TLD_Dynamic_Map.Game_data"
+        xmlns:helpers="clr-namespace:TLD_Dynamic_Map.Helpers"
+        xmlns:images="clr-namespace:TLD_Dynamic_Map.Images"
+        xmlns:viewModels="clr-namespace:TLD_Dynamic_Map.ViewModels"
+        xmlns:tabs="clr-namespace:TLD_Dynamic_Map.Tabs"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+        xmlns:dragablz="clr-namespace:Dragablz;assembly=Dragablz"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="{x:Static p:Resources.Title}" Height="600" Width="900" 
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"        
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        Loaded="Window_Loaded" Closing="Window_Closing" Activated="TheWindow_Activated">
+
+    <Window.Resources>
+        <converters:PercentageConverter x:Key="FeatProgressPercentageConverter" />
+        <converters:PrefabNameConverter x:Key="PrefabNameConverter" />
+        <converters:DoubleToPercentageConverter x:Key="DoubleToPercentageConverter" />
+        <converters:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
+        <converters:CategoryToItemsConverter x:Key="CategoryToItemsConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+
+        <System:Double x:Key="double100">100</System:Double>
+    </Window.Resources>
+    <materialDesign:DialogHost Name="dialogHost" >
+        <materialDesign:DialogHost.Resources>
+            <DataTemplate DataType="{x:Type viewModels:BusyDialogViewModel}">
+                <StackPanel Margin="10">
+                    <TextBlock Margin="10" HorizontalAlignment="Center" Text="{Binding Text, Mode=OneWay}"></TextBlock>
+                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                     Value="0" IsIndeterminate="True" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="30" Height="30" Margin="10"/>
+                </StackPanel>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:NewVersionDialogViewModel}">
+                <Grid Margin="10" MinWidth="300" MinHeight="200">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock TextAlignment="Center" Grid.Row="0" Margin="0 0 0 10">New version of Save Editor available.</TextBlock>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" MaxHeight="250">
+                        <ItemsControl ItemsSource="{Binding Versions}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="10">
+                                        <Label FontSize="14" FontWeight="Bold" Content="{Binding version}" Margin="0 0 0 5"/>
+                                        <TextBlock Text="{Binding changes}"></TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                    <Grid Grid.Row="2" Margin="0 10 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="10"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="1" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButtonNoRounding}" Content="{x:Static p:Resources.Cancel}" />
+                        <Button Grid.Column="3" Command="{Binding DownloadCommand}" Style="{StaticResource MaterialDesignFlatButtonNoRounding}" Content="{x:Static p:Resources.Download}"/>
+                    </Grid>
+                </Grid>
+
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModels:SaveFileUpdatedViewModel}">
+                <Grid Margin="10" MinWidth="300" MinHeight="150">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0">
+                         <TextBlock Grid.Row="0" Margin="0 0 0 10" FontWeight="Bold">Currently open save has been modified</TextBlock>
+                        <TextBlock Grid.Row="0" Margin="0 0 0 10">If you don't refresh, you potentially lose any chnges made in-game</TextBlock>
+                         <TextBlock Grid.Row="0" Margin="0 0 0 10">If you refresh, you'll lose any changes made in the editor without saving</TextBlock>
+                    </StackPanel>
+                    <StackPanel FlowDirection="RightToLeft" Orientation="Horizontal" Grid.Row="2">
+                        <Button DockPanel.Dock="Right" Command="{Binding RefreshCommand}" Style="{StaticResource MaterialDesignFlatButtonNoRounding}" Content="{x:Static p:Resources.Refresh}" Width="150"/>
+                        <Button DockPanel.Dock="Right" Command="materialDesign:DialogHost.CloseDialogCommand" Style="{StaticResource MaterialDesignFlatButtonNoRounding}" Content="{x:Static p:Resources.Cancel}" Width="150"/>
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+        </materialDesign:DialogHost.Resources>
+        <materialDesign:DialogHost.DialogContent>
+            <TextBlock>Test</TextBlock>
+        </materialDesign:DialogHost.DialogContent>
+
+        <DockPanel>
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Height="40" Grid.Column="0">
+                    <ComboBox Margin="10 0 0 0" Name="ccSaves" ItemsSource="{Binding Saves}" DisplayMemberPath="Description" SelectedValuePath="Value" Width="220" SelectedIndex="0" SelectionChanged="CurrentSaveSelectionChanged"/>
+                    <Button Margin="10 0 0 0" Click="MenuItem_Click" Style="{StaticResource MaterialDesignFlatButtonNoRounding}" Content="{x:Static p:Resources.Save}" Height="40"/>
+                    <Button Margin="10 0 0 0" Click="RefreshClicked" Style="{StaticResource MaterialDesignFlatButtonNoRounding}" Content="{x:Static p:Resources.Refresh}" Height="40"/>
+                    <Button Margin="10 0 0 0" Click="OpenBackupsClicked" Style="{StaticResource MaterialDesignFlatButtonNoRounding}" Content="{x:Static p:Resources.Backups}" Height="40"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="0 0 20 0">
+                    <Button Style="{StaticResource MaterialDesignFlatButtonNoRounding}" Foreground="#7289DA" Click="JoinDiscordClicked" Height="40">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Discord" Width="18" Height="18" />
+                            <TextBlock Margin="8 0 0 0" VerticalAlignment="Center">Discord group</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource MaterialDesignFlatButtonNoRounding}" Foreground="#211F1F" Click="ViewOnGitHubClicked" Height="40">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="GithubCircle" Height="20" Width="20" />
+                            <TextBlock Margin="8 0 0 0" VerticalAlignment="Center">View on GitHub</TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <!--<Label Margin="10 0 0 0" VerticalAlignment="Center" Content="{x:Static p:Resources.TestBranch}"/>
+                    <ToggleButton Margin="5 0 0 0" IsChecked="{Binding TestBranch, Mode=TwoWay}" Style="{StaticResource MaterialDesignSwitchToggleButton}"/>-->
+                </StackPanel>
+            </Grid>
+            <Rectangle DockPanel.Dock="Top" Fill="#A6B8C3" Height="1" ></Rectangle>
+            <uc:userControl />
+            <dragablz:TabablzControl Name="tabPanel"  DockPanel.Dock="Bottom" FixedHeaderCount="7">
+                <TabItem Header="{x:Static p:Resources.Map}">
+                    <DockPanel>
+                        <Rectangle Fill="#A6B8C3" Height="1" DockPanel.Dock="Top"></Rectangle>
+                        <tabs:MapTab  DockPanel.Dock="Top"/>
+                    </DockPanel>
+                </TabItem>
+            </dragablz:TabablzControl>
+        </DockPanel>
+    </materialDesign:DialogHost>
+</Window>
