@@ -18,7 +18,9 @@ namespace TLD_Dynamic_Map.Helpers.Helpers
             return _canExecute;
         }
 
+        #pragma warning disable
         public event EventHandler CanExecuteChanged;
+        #pragma warning enable
 
         public void Execute(object parameter)
         {

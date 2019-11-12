@@ -211,7 +211,9 @@ namespace TLD_Dynamic_Map
 
                             break;
                         }
+                        #pragma warning disable 0168
                         catch (Exception ex)
+                        #pragma warning restore 0168
                         {
                             Debug.WriteLine(file.FullName + " invalid");
                         }

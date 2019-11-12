@@ -18,7 +18,7 @@ namespace TLD_Dynamic_Map
     /// <summary>
     /// Логика взаимодействия для Map.xaml
     /// </summary>
-    public partial class Map : Page
+    public partial class Map : UserControl
     {
         public Map()
         {
