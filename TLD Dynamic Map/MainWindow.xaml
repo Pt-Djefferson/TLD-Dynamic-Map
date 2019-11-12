@@ -125,16 +125,10 @@
                             <TextBlock Margin="8 0 0 0" VerticalAlignment="Center">View on GitHub</TextBlock>
                         </StackPanel>
                     </Button>
-                    <!--<Label Margin="10 0 0 0" VerticalAlignment="Center" Content="{x:Static p:Resources.TestBranch}"/>
-                    <ToggleButton Margin="5 0 0 0" IsChecked="{Binding TestBranch, Mode=TwoWay}" Style="{StaticResource MaterialDesignSwitchToggleButton}"/>-->
                 </StackPanel>
             </Grid>
             <Rectangle DockPanel.Dock="Top" Fill="#A6B8C3" Height="1" ></Rectangle>
-            <Frame Height="528" VerticalAlignment="Top" Width="100">
-                <Frame.Content>
-                    <map:Map/>
-                </Frame.Content>
-            </Frame>
+            <map:Map/>
         </DockPanel>
     </materialDesign:DialogHost>
 </Window>

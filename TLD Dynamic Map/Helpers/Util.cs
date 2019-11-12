@@ -13,8 +13,6 @@ namespace TLD_Dynamic_Map.Helpers
 {
     public static class Util
     {
-        private static readonly object IsDebug;
-
         public static T DeserializeObject<T>(string json) where T : class
         {
 
@@ -81,7 +79,9 @@ namespace TLD_Dynamic_Map.Helpers
                     var member = CreateSaveEnumerationMember(file, "UWP");
                     result.Add(member);
                 }
+                #pragma warning disable 0168
                 catch (Exception ex)
+                #pragma warning restore 0168
                 {
                     continue;
                 }

@@ -72,7 +72,9 @@ namespace TLD_Dynamic_Map.ViewModels
                         DialogHost.CloseDialogCommand.Execute(null, null);
                     }
                 }
+                #pragma warning disable 0168
                 catch (Exception ex)
+                #pragma warning restore 0168
                 {
 
                 }
